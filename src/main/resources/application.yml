@@ -1,0 +1,7 @@
+app:
+  name: Selin
+  description: ${app.name} manage microservices based environments and deployments on Kubernetes
+
+spring:
+  main:
+    banner-mode: "off"

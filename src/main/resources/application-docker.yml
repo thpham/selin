@@ -1,0 +1,24 @@
+################### DataSource Configuration ######################
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/selin
+    username: selin
+    password: selin1234
+    driverClassName: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    #generate-ddl: 'true' # Do not use this!
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: 'false'
+        use_sql_comments: 'false'
+        format_sql: 'false'
+        temp.use_jdbc_metadata_defaults: 'false'
+
+################### Vert.x Configuration ##########################
+vertx.worker.pool.size: 40
+vertx.springWorker.instances: 20
+
+spring.devtools.restart.enabled: 'false' 

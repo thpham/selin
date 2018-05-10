@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Selin Shell</title>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/xterm/2.8.1/xterm.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/xterm/2.8.1/addons/fit/fit.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/xterm/2.8.1/xterm.min.css"/>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu"/>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .top-bar {
+      height: 50px;
+    }
+
+    #brand {
+      position: absolute;
+      width: calc(100% - 16px);
+      top: 0;
+      left: 0;
+      font-size: 16px;
+      padding-left: 16px;
+      color: white;
+      font-family: 'Ubuntu', sans-serif;
+      background-color: #782b90;
+    }
+
+    #terminal {
+      height: calc(100% - 50px);
+      overflow: hidden;
+      font-size: 12px;
+      font-family: Menlo, Monaco, Consolas, monospace;
+      background-color: #000;
+    }
+  </style>
+  <script src="vertxshell.js"></script>
+</head>
+
+<body>
+<div class="top-bar"></div>
+<div id="brand">Selin: a multi-environment deployment and release manager for your micro-services</div>
+<div id="terminal"></div>
+<script>
+  var url;
+  if (typeof SockJS !== 'undefined') {
+    url = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/shell';
+  } else {
+    url = location.protocol.replace('http', 'ws') + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/shell/websocket';
+  }
+
+  // Workaround for https://github.com/sourcelair/xterm.js/issues/762
+  var brandElement = document.getElementById('brand');
+  var fixHeight = function (term) {
+    term.element.style.marginTop = '';
+    term.fit();
+    term.element.style.marginTop = term.element.parentElement.offsetHeight - term.element.offsetHeight + 'px';
+    brandElement.style.lineHeight = document.body.offsetHeight - term.element.offsetHeight + 'px';
+  };
+
+  var vertxTerm = new VertxTerm(url, document.getElementById('terminal'));
+  fixHeight(vertxTerm.term);
+
+  window.addEventListener('resize', function () {
+    fixHeight(vertxTerm.term);
+  });
+</script>
+</body>
+</html>

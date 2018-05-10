@@ -1,0 +1,46 @@
+version: '3'
+services:
+  selin:
+    image: ithings/selin:1.0.0-SNAPSHOT
+    ports:
+      - 8080:8080
+      - 2222:2222
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "200k"
+        max-file: "10"
+        
+  adminer:
+    image: adminer
+    ports:
+      - 8181:8080
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+  postgres:
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_DB: selin
+      POSTGRES_USER: selin
+      POSTGRES_PASSWORD: selin1234
+      PGDATA: /data/postgres
+    volumes:
+      - pg-data:/data/postgres
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+volumes:
+  pg-data:
+

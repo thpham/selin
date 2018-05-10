@@ -1,0 +1,32 @@
+#debug: 'true'
+
+################### DataSource Configuration ##########################
+spring:
+  datasource:
+    url: jdbc:h2:mem:selin;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    #generate-ddl: 'true' # Do not use this!
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: 'true'
+        use_sql_comments: 'false'
+        format_sql: 'false'
+  h2:
+    console:
+      enabled: 'true'
+      path: /h2-console
+      settings:
+        trace: 'false'
+        web-allow-others: 'false'
+
+################### Vert.x Configuration ##########################
+vertx.worker.pool.size: 4
+vertx.springWorker.instances: 2
+
+spring.devtools.restart.enabled: 'false' 
