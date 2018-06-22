@@ -1,5 +1,14 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:8-jdk-alpine AS builder
 MAINTAINER Thomas Pham <thomas.pham@ithings.ch>
+
+WORKDIR /build
+RUN apk --update --no-cache add \
+    maven
+
+COPY . /build
+RUN mvn clean package
+
+FROM openjdk:8-jre-alpine AS image
 
 RUN apk --update --no-cache add \
     ca-certificates curl
@@ -14,8 +23,7 @@ ENTRYPOINT ["./entrypoint.sh"]
 
 ADD entrypoint.sh .
 # Add Maven dependencies (not shaded into the artifact; Docker-cached)
-ADD target/libs  libs
+COPY --from=builder /build/target/libs  libs
 
-# Add the service itself
-ARG JAR_FILE
-ADD target/${JAR_FILE} app.jar
+
+COPY --from=builder /build/target/selin*.jar app.jar

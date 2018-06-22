@@ -1,2 +1,4 @@
 target/
 *.adoc
+.idea/
+selin.iml

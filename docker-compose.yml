@@ -1,6 +1,7 @@
 version: '3'
 services:
   selin:
+    build: .
     image: ithings/selin:1.0.0-SNAPSHOT
     ports:
       - 8080:8080

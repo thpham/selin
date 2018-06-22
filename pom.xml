@@ -158,7 +158,7 @@
     <dependency>
       <groupId>su.nlq</groupId>
       <artifactId>vertx-prometheus-metrics</artifactId>
-      <version>3.5.1</version>
+      <version>${vertx.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.protobuf</groupId>
@@ -194,7 +194,7 @@
   </dependencies>
 
   <build>
-    <finalName>${project.artifactId}-${project.version}-r${buildNumber}</finalName>
+    <finalName>${project.artifactId}-${project.version}</finalName>
     <extensions>
       <extension>
         <groupId>kr.motd.maven</groupId>
@@ -291,24 +291,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>buildnumber-maven-plugin</artifactId>
-        <version>1.4</version>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>create</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <doCheck>false</doCheck>
-          <doUpdate>false</doUpdate>
-          <shortRevisionLength>5</shortRevisionLength>
-        </configuration>
-      </plugin>
       <!-- Set up JAR manifest -->
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
@@ -320,9 +302,9 @@
               <mainClass>${mainClass}</mainClass>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
-            <manifestEntries>
+            <!--<manifestEntries>
               <Implementation-Build>${buildNumber}</Implementation-Build>
-            </manifestEntries>
+            </manifestEntries>-->
           </archive>
         </configuration>
       </plugin>
@@ -346,44 +328,8 @@
           </execution>
         </executions>
       </plugin>
-      <!-- Build Docker image -->
-      <plugin>
-        <groupId>com.spotify</groupId>
-        <artifactId>dockerfile-maven-plugin</artifactId>
-        <version>1.4.0</version>
-        <executions>
-          <execution>
-            <id>default</id>
-            <goals>
-              <goal>build</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <repository>${docker.image.prefix}/${project.artifactId}</repository>
-          <tag>${project.version}</tag>
-          <buildArgs>
-            <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-          </buildArgs>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>pl.project13.maven</groupId>
-        <artifactId>git-commit-id-plugin</artifactId>
-      </plugin>
+
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>staging</id>
-      <repositories>
-        <repository>
-          <id>staging</id>
-          <url>https://oss.sonatype.org/content/repositories/iovertx-3295</url>
-        </repository>
-      </repositories>
-    </profile>
-  </profiles>
 
 </project>

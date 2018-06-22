@@ -1,5 +1,11 @@
 # Selin
 
+
+
+[![pipeline status](https://gitlab.com/thpham/selin/badges/master/pipeline.svg)](https://gitlab.com/thpham/selin/commits/master)
+[![coverage report](https://gitlab.com/thpham/selin/badges/master/coverage.svg)](https://gitlab.com/thpham/selin/commits/master)
+
+
 Right now it's just a POC, work in progress.
 
 ## Features
